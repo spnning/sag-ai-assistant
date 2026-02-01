@@ -1,3 +1,21 @@
+## Setup
+
+Install Node.js 20.x
+
+Recommended (Windows): nvm-windows → nvm install 20 then nvm use 20
+
+Or install Node 20 directly from nodejs.org
+
+Install deps:
+
+npm install
+
+Also add:
+
+Do not commit .env.local
+
+Do not push to main directly
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
