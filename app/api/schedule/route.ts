@@ -1,24 +1,37 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-export async function POST(req: Request) {
+// Initialize the API with your key
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
+
+export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { userInput } = body;
+    const { userInput } = await req.json();
 
-    // TEMP fake response (to prove everything works)
-    const schedule = `
-8:00 AM - Wake up
-9:00 AM - School
-3:30 PM - Homework
-6:00 PM - Free time
-10:30 PM - Sleep
+    // Use gemini-1.5-flash for speed and low cost (perfect for hackathons)
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+
+    const promptText = `
+      You are a daily schedule planner.
+      The user will give you a sentence describing their day.
+      Convert it into a schedule.
+
+      RULES:
+      - Use 1-hour time blocks
+      - Use 24-hour or AM/PM consistently
+      - Output ONLY the schedule
+      - Each line must be in this format: HH:MM-HH:MM Activity
+
+      USER INPUT: "${userInput}"
     `;
 
+    const result = await model.generateContent(promptText);
+    const response = await result.response;
+    const schedule = response.text();
+
     return NextResponse.json({ schedule });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Something went wrong" },
-      { status: 500 }
-    );
+  } catch (err: any) {
+    console.error("Gemini Error:", err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
