@@ -1,3 +1,4 @@
+//Example page.tsx, change/delete with better ones
 "use client";
 
 import { useState } from "react";
