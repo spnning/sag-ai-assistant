@@ -26,7 +26,14 @@ export type PlanResponse = {
     notes?: string[];
 };
 
+export type CareEdit = {
+    taskId?: string;           // ex. "today" or "2026-02-02"
+    change: string;         // what to do
+    reason: string;         // why
+}
+
 export type CareResponse = {
-    message: string;
-    lowEnergyAlt?: string;
+    gentle_summary: string;
+    suggestions: string[];
+    priority_based_edits: CareEdit[];
 };
