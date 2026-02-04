@@ -1,65 +1,69 @@
-import Image from "next/image";
+import { redirect } from 'next/navigation';
 
-export default function Home() {
+export default function Result() {
+
+  // This handles the Form data (user inputed timeblocks and energy level)
+  async function handleSubmit(formData: FormData) {
+    'use server';
+    const timeBlocks = formData.get('Time Blocks') as string;
+    const energyLevel = formData.get('Energy Level') as string;
+
+
+
+    console.log(timeBlocks, energyLevel);
+    redirect(`/result?timeBlocks=${encodeURIComponent(timeBlocks as string)}&energyLevel=${encodeURIComponent(energyLevel as string)}`);
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    
+    <div className="min-h-screen w-full bg-fixed bg-cover relative">
+
+      {/* Background */}
+      <div className=" bg-[linear-gradient(to_right,#73737320_1px,transparent_1px),linear-gradient(to_bottom,#73737320_1px,transparent_1px)] bg-size-[20px_20px]"/>        
+      <div className="absolute -z-10 inset-0 h-full w-full bg-fixed bg-[linear-gradient(to_right,#73737320_1px,transparent_1px),linear-gradient(to_bottom,#73737320_1px,transparent_1px)] bg-size-[20px_20px]" />
+
+      {/* Main */}
+      <main className="mx-auto flex-col min-h-screen w-full max-w-3xl items-center justify-between py-10 px-16 sm:items-start">
+
+
+        <div className="flex flex-col justify-center items-center gap-10 text-center sm:text-left">
+
+          {/* Title */}
+          <h6 className="text-6xl text-[#628141] text-shadow-[#254F22] text-shadow-lg font-custom-zendots">AI Daily Planner</h6>
+
+          {/* Form */}
+          <form action={handleSubmit} className="flex flex-col justify-center items-center gap-10">
+
+            <textarea name="Time Blocks" defaultValue="gym from 8:30am-10am" className="shadow-lg shadow-[#254F22] tracking-wide text-white text-shadow-sm text-shadow-[#00FF00] font-custom-orbitron border-2 border-transperant border-[#353E43] focus:outline-none w-xl h-80 relative bg-white/1 backdrop-blur-sm rounded-xl p-6 max-w-xl"></textarea>
+
+            <div className="flex flex-col bg-red gap-5">              
+            
+              <div className="inline-flex gap-10 justify-center items-center">
+
+                <h1 className="font-custom-zendots font-semibold text-[#628141] text-heading">Select Energy Level:</h1>
+
+                <select className="font-custom-zendots text-[#254F22] focus:outline-none" name="Energy Level" id="select">
+                  
+                  <option className="text-black font-custom-zendots" value="High">High</option>
+                  <option className="text-black font-custom-zendots bg-transparent" value="Medium">Medium</option>
+                  <option className="text-black font-custom-zendots" value="Low">Low</option>
+                
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" className="font-custom-zendots relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-md">
+              <span className="w-full h-full bg-linear-to-br from-[#628141] via-[#8BAE66] to-[#1B211A] group-hover:from-[#1B211A] group-hover:via-[#8BAE66] group-hover:to-[#628141] absolute"></span>
+                <span className="relative px-6 py-3 transition-all ease-out bg-white/10 backdrop-blur-sm rounded-md group-hover:bg-opacity-0 duration-400">
+                <span className="relative text-[#222222]">Create Schedule</span>
+              </span>
+            </button>
+
+          </form>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
       </main>
+
     </div>
   );
 }
