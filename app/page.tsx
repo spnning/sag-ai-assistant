@@ -15,7 +15,7 @@ export default function Home() {
     setSchedule("");   // Clear old schedules
 
     try {
-      const res = await fetch("/api/schedule", {
+      const res = await fetch("/api/parse", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userInput: input }),
